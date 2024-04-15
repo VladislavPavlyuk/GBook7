@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using GBook.Models;
+using GBook.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(conne
 
 // Добавляем сервисы MVC
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IRepository, GBookRepository>();
 
 
 var app = builder.Build();

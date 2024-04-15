@@ -32,7 +32,7 @@ namespace GBook.Controllers
         // GET: Messages/Create
         public IActionResult Create()
         {
-            ViewData["Id_User"] = new SelectList(_context.Messages, "Id","Message","MessageDate","User.Name" );
+            //ViewData["Id_User"] = new SelectList(repo.GetMessageList(), "Id","Message","MessageDate","User.Name" );
             return View();
         }
 
@@ -47,9 +47,9 @@ namespace GBook.Controllers
 
                 mes.UserId = int.Parse(HttpContext.Session.GetString("Id"));
 
-                _context.Add(mes);
+                await repo.Create(mes);
 
-                await _context.SaveChangesAsync();
+                await repo.Save();
 
                 return RedirectToAction(nameof(Index));
             }

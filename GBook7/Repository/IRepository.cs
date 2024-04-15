@@ -4,9 +4,10 @@ using GBook.Models;
 namespace GBook.Repository
 {
     public interface IRepository
-    {
-       // public IActionResult Create();
-        //public Task<IActionResult> Create([Bind("Message")] Messages mes);
-        public Task<List<Messages>> GetMessageList();
+    { 
+        Task<List<Messages>> GetMessageList();
+        Task Create(Messages mes);
+        Task Save();
+
     }
 }
