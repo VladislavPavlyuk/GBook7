@@ -1,0 +1,45 @@
+﻿
+@model IEnumerable<GBook.Models.Messages>
+
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Messages</h2>
+<p>
+    @if (Context.Session.GetString("Name") != null)
+    {
+      <a asp-action="Create">Create New</a>  
+    }    
+</p>
+
+<div>
+        <table style="width:50%" class="table">
+            <tr>
+
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MessageDate)
+                </th>
+                <th>
+                @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Message)
+                </th>
+
+            </tr>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td><p>@Html.DisplayFor(modelItem => item.MessageDate)</p></td>
+                <td><p>@Html.DisplayFor(modelItem => item.User.Name)</p></td>
+                <td><p>@Html.DisplayFor(modelItem => item.Message)</p></td>
+            </tr>
+            }
+        </table>
+
+    </div>
+
