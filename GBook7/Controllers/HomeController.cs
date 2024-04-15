@@ -2,23 +2,31 @@
 using Microsoft.EntityFrameworkCore;
 using GBook.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using GBook.Repository;
 
 namespace GBook.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserContext _context;
+        /*private readonly UserContext _context;
         public HomeController(UserContext context)
         {
             _context = context;
+        }*/
+
+        IRepository repo;
+
+        public HomeController(IRepository r)
+        {
+            repo = r;
         }
 
         // GET: Messages
         public async Task<IActionResult> Index()
         {
-            var userContext = _context.Messages.Include(p => p.User);
-            return View(await userContext.ToListAsync());
-
+            //var userContext = await _context.Messages.Include(p => p.User);
+            var model = await repo.GetMessageList();
+            return View(model);
         }
 
         // GET: Messages/Create
@@ -34,8 +42,7 @@ namespace GBook.Controllers
         public async Task<IActionResult> Create([Bind("Message")] Messages mes)
         {
             try
-            {
-               
+            {               
                 mes.MessageDate = DateOnly.FromDateTime(DateTime.Now);
 
                 mes.UserId = int.Parse(HttpContext.Session.GetString("Id"));
@@ -50,12 +57,6 @@ namespace GBook.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-
-        }
-        public ActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Account");
         }
     }
 }
